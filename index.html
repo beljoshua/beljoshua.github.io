@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Bayou Blossoms – Fresh Flowers, Straight from the Heart</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Crimson+Pro:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --sage: #7a8c6e;
+      --blush: #e8c4b8;
+      --cream: #faf6f0;
+      --moss: #4a5e3a;
+      --terracotta: #c4785a;
+      --deep: #2a1f1a;
+      --gold: #c9a96e;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--cream);
+      color: var(--deep);
+      font-family: 'Crimson Pro', serif;
+      overflow-x: hidden;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      position: relative;
+      background: linear-gradient(160deg, #f5ede4 0%, #e8ddd3 40%, #d4c8bc 100%);
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 80% 30%, rgba(232,196,184,0.5) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 60% at 10% 80%, rgba(122,140,110,0.2) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    /* Decorative petal shapes */
+    .petal {
+      position: absolute;
+      border-radius: 50% 10% 50% 10%;
+      opacity: 0.12;
+      animation: drift 8s ease-in-out infinite;
+    }
+    .petal:nth-child(1) { width: 180px; height: 180px; background: var(--terracotta); top: 5%; left: 70%; animation-delay: 0s; transform: rotate(20deg); }
+    .petal:nth-child(2) { width: 120px; height: 120px; background: var(--sage); top: 60%; left: 85%; animation-delay: 2s; transform: rotate(-30deg); }
+    .petal:nth-child(3) { width: 90px; height: 90px; background: var(--gold); top: 80%; left: 5%; animation-delay: 4s; transform: rotate(45deg); }
+    .petal:nth-child(4) { width: 220px; height: 220px; background: var(--blush); top: -5%; left: -5%; animation-delay: 1s; transform: rotate(-10deg); }
+
+    @keyframes drift {
+      0%, 100% { transform: translateY(0) rotate(var(--r, 20deg)); }
+      50% { transform: translateY(-18px) rotate(calc(var(--r, 20deg) + 8deg)); }
+    }
+
+    nav {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 2rem 4rem;
+    }
+
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--moss);
+      letter-spacing: 0.03em;
+    }
+    .logo span { color: var(--terracotta); font-style: italic; }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 2.5rem;
+    }
+    nav a {
+      text-decoration: none;
+      color: var(--deep);
+      font-size: 1rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-weight: 300;
+      opacity: 0.75;
+      transition: opacity 0.2s, color 0.2s;
+    }
+    nav a:hover { opacity: 1; color: var(--terracotta); }
+
+    .hero-body {
+      position: relative;
+      z-index: 5;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 2rem 4rem 4rem;
+      max-width: 700px;
+    }
+
+    .eyebrow {
+      font-size: 0.85rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--terracotta);
+      margin-bottom: 1.2rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.2s forwards;
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem, 7vw, 5.5rem);
+      line-height: 1.05;
+      color: var(--moss);
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.4s forwards;
+    }
+    h1 em {
+      font-style: italic;
+      color: var(--terracotta);
+    }
+
+    .hero-sub {
+      font-size: 1.3rem;
+      line-height: 1.7;
+      color: var(--deep);
+      opacity: 0;
+      max-width: 480px;
+      animation: fadeUp 0.9s 0.6s forwards;
+      font-weight: 300;
+    }
+
+    .hero-cta {
+      margin-top: 2.5rem;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.8s forwards;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 0.85rem 2rem;
+      border-radius: 2px;
+      font-family: 'Crimson Pro', serif;
+      font-size: 1rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: all 0.25s;
+      cursor: pointer;
+      border: none;
+    }
+    .btn-primary {
+      background: var(--moss);
+      color: var(--cream);
+    }
+    .btn-primary:hover { background: var(--deep); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(42,31,26,0.2); }
+    .btn-outline {
+      background: transparent;
+      color: var(--moss);
+      border: 1.5px solid var(--moss);
+    }
+    .btn-outline:hover { background: var(--moss); color: var(--cream); transform: translateY(-2px); }
+
+    .hero-footer {
+      position: relative;
+      z-index: 5;
+      display: flex;
+      gap: 3rem;
+      padding: 2rem 4rem;
+      border-top: 1px solid rgba(42,31,26,0.1);
+    }
+    .stat { display: flex; flex-direction: column; }
+    .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      color: var(--terracotta);
+    }
+    .stat-label { font-size: 0.85rem; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.6; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── SECTION SHARED ── */
+    section { padding: 6rem 4rem; }
+
+    .section-label {
+      font-size: 0.8rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--terracotta);
+      margin-bottom: 0.75rem;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      color: var(--moss);
+      line-height: 1.2;
+      margin-bottom: 1.5rem;
+    }
+    .section-title em { font-style: italic; color: var(--terracotta); }
+
+    /* ── ABOUT ── */
+    .about {
+      background: white;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+    }
+
+    .about-text p {
+      font-size: 1.15rem;
+      line-height: 1.9;
+      color: var(--deep);
+      opacity: 0.85;
+      margin-bottom: 1.2rem;
+      font-weight: 300;
+    }
+
+    .about-visual {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .flower-card {
+      background: var(--cream);
+      border-radius: 4px;
+      padding: 2rem 1.5rem;
+      text-align: center;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .flower-card:hover { transform: translateY(-6px); box-shadow: 0 12px 30px rgba(42,31,26,0.1); }
+    .flower-card:nth-child(2) { margin-top: 2rem; }
+    .flower-card:nth-child(4) { margin-top: -2rem; }
+
+    .flower-emoji { font-size: 2.5rem; margin-bottom: 0.75rem; }
+    .flower-card h4 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      color: var(--moss);
+      margin-bottom: 0.3rem;
+    }
+    .flower-card p { font-size: 0.9rem; opacity: 0.65; }
+
+    /* ── LOCATIONS ── */
+    .locations {
+      background: var(--moss);
+      color: var(--cream);
+    }
+    .locations .section-title { color: var(--blush); }
+    .locations .section-label { color: var(--gold); }
+
+    .locations-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+
+    .location-card {
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 4px;
+      padding: 2.5rem;
+      transition: background 0.3s;
+    }
+    .location-card:hover { background: rgba(255,255,255,0.12); }
+
+    .location-icon { font-size: 2rem; margin-bottom: 1rem; }
+    .location-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      color: var(--blush);
+      margin-bottom: 0.5rem;
+    }
+    .location-card .city {
+      font-size: 0.8rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1rem;
+    }
+    .location-card p {
+      font-size: 1rem;
+      line-height: 1.7;
+      opacity: 0.75;
+      font-weight: 300;
+    }
+    .location-badge {
+      display: inline-block;
+      margin-top: 1.2rem;
+      padding: 0.3rem 0.9rem;
+      background: rgba(201,169,110,0.2);
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      border-radius: 2px;
+    }
+
+    /* ── OFFERINGS ── */
+    .offerings { background: var(--cream); }
+    .offerings-intro {
+      font-size: 1.2rem;
+      line-height: 1.8;
+      max-width: 600px;
+      opacity: 0.8;
+      font-weight: 300;
+      margin-bottom: 3rem;
+    }
+
+    .offerings-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    .offering {
+      background: white;
+      padding: 2.5rem 2rem;
+      border-radius: 4px;
+      border-bottom: 3px solid transparent;
+      transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+    }
+    .offering:hover {
+      border-color: var(--terracotta);
+      transform: translateY(-4px);
+      box-shadow: 0 10px 30px rgba(42,31,26,0.08);
+    }
+    .offering-icon { font-size: 2rem; margin-bottom: 1rem; }
+    .offering h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      color: var(--moss);
+      margin-bottom: 0.6rem;
+    }
+    .offering p { font-size: 0.95rem; line-height: 1.7; opacity: 0.7; font-weight: 300; }
+
+    /* ── CONTACT ── */
+    .contact {
+      background: linear-gradient(135deg, #f5ede4 0%, #ede3d8 100%);
+      text-align: center;
+    }
+    .contact .section-title { margin-bottom: 0.75rem; }
+    .contact-sub {
+      font-size: 1.15rem;
+      opacity: 0.75;
+      max-width: 500px;
+      margin: 0 auto 3rem;
+      font-weight: 300;
+      line-height: 1.7;
+    }
+
+    .contact-cards {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+      margin-bottom: 3rem;
+    }
+    .contact-card {
+      background: white;
+      padding: 2rem 2.5rem;
+      border-radius: 4px;
+      min-width: 220px;
+      box-shadow: 0 4px 20px rgba(42,31,26,0.06);
+    }
+    .contact-card .icon { font-size: 1.8rem; margin-bottom: 0.75rem; }
+    .contact-card h4 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      color: var(--moss);
+      margin-bottom: 0.3rem;
+    }
+    .contact-card p { font-size: 0.95rem; opacity: 0.7; }
+    .contact-card a { color: var(--terracotta); text-decoration: none; }
+    .contact-card a:hover { text-decoration: underline; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--deep);
+      color: var(--cream);
+      padding: 3rem 4rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    footer .logo { color: var(--blush); }
+    footer p { font-size: 0.85rem; opacity: 0.5; }
+
+    /* ── DIVIDER ── */
+    .divider {
+      width: 60px;
+      height: 2px;
+      background: var(--terracotta);
+      margin: 1.5rem 0 2rem;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      nav { padding: 1.5rem 2rem; }
+      nav ul { display: none; }
+      .hero-body { padding: 2rem 2rem 3rem; max-width: 100%; }
+      .hero-footer { padding: 1.5rem 2rem; flex-wrap: wrap; gap: 1.5rem; }
+      section { padding: 4rem 2rem; }
+      .about { grid-template-columns: 1fr; gap: 3rem; }
+      .locations-grid { grid-template-columns: 1fr; }
+      .offerings-grid { grid-template-columns: 1fr 1fr; }
+      footer { flex-direction: column; text-align: center; padding: 2rem; }
+    }
+    @media (max-width: 600px) {
+      .offerings-grid { grid-template-columns: 1fr; }
+      .about-visual { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="petal"></div>
+    <div class="petal"></div>
+    <div class="petal"></div>
+    <div class="petal"></div>
+
+    <nav>
+      <div class="logo">Bayou <span>Blossoms</span></div>
+      <ul>
+        <li><a href="#about">About</a></li>
+        <li><a href="#locations">Locations</a></li>
+        <li><a href="#offerings">Offerings</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+
+    <div class="hero-body">
+      <p class="eyebrow">Fresh Flowers · Thibodaux & Luling, LA</p>
+      <h1>Grown with love,<br><em>rooted in</em><br>Louisiana.</h1>
+      <p class="hero-sub">Handcrafted floral arrangements straight from our garage doors — because the best blooms come with a personal touch.</p>
+      <div class="hero-cta">
+        <a href="#contact" class="btn btn-primary">Order Flowers</a>
+        <a href="#offerings" class="btn btn-outline">See What We Offer</a>
+      </div>
+    </div>
+
+    <div class="hero-footer">
+      <div class="stat">
+        <span class="stat-num">2</span>
+        <span class="stat-label">Locations</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">LLC</span>
+        <span class="stat-label">Registered Business</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">100%</span>
+        <span class="stat-label">Local & Personal</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="about" id="about">
+    <div class="about-text">
+      <p class="section-label">Our Story</p>
+      <h2 class="section-title">Small business,<br><em>big heart.</em></h2>
+      <div class="divider"></div>
+      <p>Bayou Blossoms started with a passion for flowers and a garage — and that's exactly how we like it. We're a local Louisiana flower LLC serving the communities of Thibodaux and Luling with fresh, handpicked arrangements.</p>
+      <p>No big box store. No cold warehouse flowers. Just real people, real blooms, and genuine care poured into every bouquet we put together.</p>
+      <a href="#contact" class="btn btn-primary" style="margin-top:1rem;">Get in Touch</a>
+    </div>
+    <div class="about-visual">
+      <div class="flower-card">
+        <div class="flower-emoji">🌹</div>
+        <h4>Fresh Roses</h4>
+        <p>Classic & romantic</p>
+      </div>
+      <div class="flower-card">
+        <div class="flower-emoji">🌻</div>
+        <h4>Sunflowers</h4>
+        <p>Louisiana sunshine</p>
+      </div>
+      <div class="flower-card">
+        <div class="flower-emoji">💐</div>
+        <h4>Mixed Bouquets</h4>
+        <p>Custom arrangements</p>
+      </div>
+      <div class="flower-card">
+        <div class="flower-emoji">🌸</div>
+        <h4>Seasonal Picks</h4>
+        <p>Fresh & local blooms</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- LOCATIONS -->
+  <section class="locations" id="locations">
+    <p class="section-label">Find Us</p>
+    <h2 class="section-title">Two locations,<br><em>one community.</em></h2>
+    <div class="divider" style="background:var(--gold);"></div>
+    <p style="font-size:1.1rem;opacity:0.75;max-width:500px;font-weight:300;line-height:1.8;">We operate out of our garages — keeping it local, keeping it personal. Reach out to set up a pickup or place an order!</p>
+
+    <div class="locations-grid">
+      <div class="location-card">
+        <div class="location-icon">🏡</div>
+        <h3>Thibodaux Location</h3>
+        <p class="city">Thibodaux, Louisiana</p>
+        <p>Serving the Thibodaux area with fresh floral arrangements available for pickup. Contact us to place your order and we'll have your blooms ready!</p>
+        <span class="location-badge">Pickup Available</span>
+      </div>
+      <div class="location-card">
+        <div class="location-icon">🏡</div>
+        <h3>Luling Location</h3>
+        <p class="city">Luling, Louisiana</p>
+        <p>Serving the Luling community with the same love and care. Reach out to schedule a pickup — we'd love to brighten your day with fresh flowers.</p>
+        <span class="location-badge">Pickup Available</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- OFFERINGS -->
+  <section class="offerings" id="offerings">
+    <p class="section-label">What We Do</p>
+    <h2 class="section-title">Something for<br><em>every occasion.</em></h2>
+    <div class="divider"></div>
+    <p class="offerings-intro">From birthday surprises to wedding centerpieces, we create arrangements that mean something. Every bouquet is made with care, just for you.</p>
+
+    <div class="offerings-grid">
+      <div class="offering">
+        <div class="offering-icon">💍</div>
+        <h3>Weddings & Events</h3>
+        <p>Centerpieces, bouquets, and decorations for your special day. We work with you to bring your floral vision to life.</p>
+      </div>
+      <div class="offering">
+        <div class="offering-icon">🎁</div>
+        <h3>Gift Bouquets</h3>
+        <p>Birthdays, anniversaries, just because — a fresh bouquet is always the right gift. Custom arrangements available.</p>
+      </div>
+      <div class="offering">
+        <div class="offering-icon">🕊️</div>
+        <h3>Sympathy Flowers</h3>
+        <p>Thoughtful arrangements to honor loved ones and offer comfort during difficult times.</p>
+      </div>
+      <div class="offering">
+        <div class="offering-icon">🌿</div>
+        <h3>Custom Arrangements</h3>
+        <p>Have something specific in mind? We'll work with you to create exactly what you're envisioning.</p>
+      </div>
+      <div class="offering">
+        <div class="offering-icon">🏠</div>
+        <h3>Home & Office</h3>
+        <p>Brighten up your space with fresh blooms. Regular arrangements available for homes and small businesses.</p>
+      </div>
+      <div class="offering">
+        <div class="offering-icon">🎓</div>
+        <h3>Graduations & Milestones</h3>
+        <p>Celebrate achievements big and small with a beautiful bouquet they'll always remember.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact" id="contact">
+    <p class="section-label">Reach Out</p>
+    <h2 class="section-title">Let's make something <em>beautiful.</em></h2>
+    <p class="contact-sub">Ready to order or just want to ask a question? We'd love to hear from you. Reach out through any of the options below.</p>
+
+    <div class="contact-cards">
+      <div class="contact-card">
+        <div class="icon">📍</div>
+        <h4>Thibodaux, LA</h4>
+        <p>Garage pickup available</p>
+      </div>
+      <div class="contact-card">
+        <div class="icon">📍</div>
+        <h4>Luling, LA</h4>
+        <p>Garage pickup available</p>
+      </div>
+      <div class="contact-card">
+        <div class="icon">📱</div>
+        <h4>Message Us</h4>
+        <p>Reach out on Facebook<br>or Instagram</p>
+      </div>
+    </div>
+
+    <a href="#" class="btn btn-primary" style="font-size:1.05rem;padding:1rem 2.5rem;">Place an Order</a>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="logo">Bayou <span>Blossoms</span></div>
+    <p>© 2025 Bayou Blossoms LLC · Thibodaux & Luling, Louisiana</p>
+    <p style="opacity:0.4;font-size:0.8rem;">Made with 🌸 in Louisiana</p>
+  </footer>
+
+</body>
+</html>
